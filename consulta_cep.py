@@ -1,6 +1,7 @@
 import requests 
-  
-  
+
+historico = []  
+
 def consultar_cep(cep): 
     url = f"https://viacep.com.br/ws/{cep}/json/" 
     resposta = requests.get(url) 
@@ -24,6 +25,7 @@ def exibir_endereco(dados):
 while True: 
     print("\n=== Consulta de CEP ===") 
     print("1 - Buscar um CEP") 
+    print("2 - Ver histórico de buscas")
     print("2 - Sair") 
     opcao = input("Escolha uma opção: ") 
   
@@ -33,8 +35,13 @@ while True:
         if dados.get("erro"): 
             print("CEP não encontrado.") 
             continue 
+        elif opcao == "2":
+            if not historico:
+                print("Nenhuma busca feita ainda.")
+                for item in historico:
+                    print(item["cep"], "-", item["logradouro"])
         exibir_endereco(dados)
-    elif opcao == "2": 
+    elif opcao == "3": 
         print("Até logo!") 
         break 
     else: 
