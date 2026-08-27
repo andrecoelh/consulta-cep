@@ -33,16 +33,20 @@ while True:
   
     if opcao == "1":
         cep = limpar_cep(input("Digite o CEP (só números): "))
+        if not cep_valido(cep):
+            print("CEP inválido! Digite 8 números, sem espaços ou traços.")
+            continue
         dados = consultar_cep(cep) 
         if dados.get("erro"): 
             print("CEP não encontrado.") 
             continue 
+        exibir_endereco(dados)
+        historico.append(dados)
     elif opcao == "2":
         if not historico:
             print("Nenhuma busca feita ainda.")
         for item in historico:
             print(item["cep"], "-", item["logradouro"])
-        exibir_endereco(dados)
     elif opcao == "3": 
         with open("historico.json", "w") as arquivo: 
             json.dump(historico, arquivo, indent=2, ensure_ascii=False) 
