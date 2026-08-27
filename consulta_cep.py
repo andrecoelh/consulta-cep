@@ -1,4 +1,5 @@
 import requests 
+import json
 
 historico = []  
 
@@ -25,8 +26,9 @@ def exibir_endereco(dados):
 while True: 
     print("\n=== Consulta de CEP ===") 
     print("1 - Buscar um CEP") 
-    print("2 - Ver histórico de buscas")
-    print("2 - Sair") 
+    print("2 - Ver histórico de buscas") 
+    print("3 - Salvar histórico em arquivo") 
+    print("4 - Sair") 
     opcao = input("Escolha uma opção: ") 
   
     if opcao == "1":
@@ -35,14 +37,16 @@ while True:
         if dados.get("erro"): 
             print("CEP não encontrado.") 
             continue 
-        elif opcao == "2":
-            if not historico:
-                print("Nenhuma busca feita ainda.")
-                for item in historico:
-                    print(item["cep"], "-", item["logradouro"])
+    elif opcao == "2":
+        if not historico:
+            print("Nenhuma busca feita ainda.")
+        for item in historico:
+            print(item["cep"], "-", item["logradouro"])
         exibir_endereco(dados)
     elif opcao == "3": 
+        with open("historico.json", "w") as arquivo: 
+            json.dump(historico, arquivo, indent=2, ensure_ascii=False) 
+        print("Histórico salvo em historico.json!") 
+    elif opcao == "4": 
         print("Até logo!") 
-        break 
-    else: 
-        print("Opção inválida.") 
+        break  
