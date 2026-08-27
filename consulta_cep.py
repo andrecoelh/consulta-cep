@@ -29,11 +29,11 @@ while True:
   
     if opcao == "1":
         cep = limpar_cep(input("Digite o CEP (só números): "))
-        if not cep_valido(cep):
-            print("CEP inválido! Digite 8 números, sem espaços ou traços.")
-            continue
-        dados = consultar_cep(cep)
-        exibir_endereco(dados) 
+        dados = consultar_cep(cep) 
+        if dados.get("erro"): 
+            print("CEP não encontrado.") 
+            continue 
+        exibir_endereco(dados)
     elif opcao == "2": 
         print("Até logo!") 
         break 
